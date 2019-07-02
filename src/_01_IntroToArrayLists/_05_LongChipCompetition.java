@@ -18,7 +18,7 @@ public class _05_LongChipCompetition {
 		_05_LongChipCompetition lcc = new _05_LongChipCompetition();
 		ArrayList<Beatle> band = lcc.getTheBand();
 		double max = 0;
-		Beatle theBeatle = band.get(0);
+		Beatle theBeatle = 
 		for(Beatle b: band) {
 			ArrayList<Chip> chips = b.getChips();
 			for(Chip c: chips) {
