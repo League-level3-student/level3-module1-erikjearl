@@ -47,25 +47,25 @@ public class _02_TextUndoRedo implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getKeyCode() !=  KeyEvent.VK_BACK_SPACE && e.getKeyCode() !=  KeyEvent.VK_ENTER) {
-		l.setText(l.getText() + e.getKeyChar());
+		if(e.getKeyChar() !=  KeyEvent.VK_BACK_SPACE && e.getKeyChar() !=  KeyEvent.VK_MINUS) {
+			l.setText(l.getText() + e.getKeyChar());
 		}
+		System.out.println(l.getText());
+		System.out.println(stck);
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println(e.getKeyChar() + " " + e.getKeyCode());
-		if(e.getKeyCode() ==  KeyEvent.VK_BACK_SPACE) {
+		if(e.getKeyCode() ==  KeyEvent.VK_BACK_SPACE && l.getText().length() > 0) { //delete
 			String s = l.getText();
-			stck.push(s.substring(s.length()-1));
-			System.out.println(stck.size());
+			stck.push(s.substring(s.length()-1, s.length()));
 			l.setText(s.substring(0,s.length()-1));
-			
 		}
-		System.out.println(l.getText());
+		if(e.getKeyCode() == KeyEvent.VK_MINUS && stck.size() > 0) { //undo
+			l.setText(l.getText()+stck.pop());
+		}
 	}
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
