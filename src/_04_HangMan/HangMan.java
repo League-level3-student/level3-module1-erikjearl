@@ -18,6 +18,7 @@ public class HangMan implements KeyListener{
 	String wrd;
 	int lives;
 	int wins;
+	String num;
 	
 	public static void main(String[] args) {
 		HangMan man = new HangMan();
@@ -26,10 +27,11 @@ public class HangMan implements KeyListener{
 	
 	void startGame() {
 		lives = 10;
+		wins = 0;
 		f = new JFrame();
 		p = new JPanel();
 		word = new JLabel();
-		alive = new JLabel("Lives: " + lives + " Round #:" + (wins+1) + "   ");
+		alive = new JLabel("Round #:" + (wins+1) + " Lives: " + lives + "    ");
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		p.add(alive);
@@ -38,7 +40,7 @@ public class HangMan implements KeyListener{
 		f.setSize(300,50);
 		f.addKeyListener(this);
 		stak = new Stack<String>();
-		String num = JOptionPane.showInputDialog("pick a number between 0 and 266");
+	    num = JOptionPane.showInputDialog("pick a number between 0 and 266");
 		for(int i = 0; i < Integer.parseInt(num); i++) {
 			String s = Utilities.readRandomLineFromFile("dictionary.txt");
 			if(!stak.contains(s))
@@ -72,13 +74,26 @@ public class HangMan implements KeyListener{
 		if(!correct) {
 			System.out.println(letter + " is not in the word");
 			lives--;
-			alive.setText("Lives: " + lives + " Round #:" + (wins+1) + "   ");
+			alive.setText("Round #:" + (wins+1) + " Lives: " + lives + "    ");
+			if(lives < 1) {
+				JOptionPane.showMessageDialog(null,"Game over, you completed " + wins + " rounds");
+				if(JOptionPane.showInputDialog("Play Again? ('yes' or 'no')").equals("yes")){
+					startGame();
+				}
+			}
 		}else {
 			System.out.println("Correct");
 			if(!word.getText().contains("_")) {
-				JOptionPane.showMessageDialog(null,"starting new round");
 				wins++;
-				showWord();
+				if(wins == Integer.parseInt(num)) {
+					JOptionPane.showMessageDialog(null,"You win, you completed " + wins + " rounds");
+					if(JOptionPane.showInputDialog("Play Again? ('yes' or 'no')").equals("yes")){
+						startGame();
+					}
+				}else {
+					JOptionPane.showMessageDialog(null,"starting round number " + (wins+1) + " of " + num);
+					showWord();
+				}
 			}
 		}
 	}
